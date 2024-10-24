@@ -45,9 +45,7 @@ fun ProductListItem(
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
-        modifier = modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
