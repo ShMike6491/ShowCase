@@ -1,6 +1,7 @@
 package org.example.showcase.store.ui.model
 
 import org.example.showcase.common.domain.model.IIdentifiable
+import org.example.showcase.common.domain.roundTo
 import org.example.showcase.common.ui.model.UiNumber
 import org.example.showcase.common.ui.model.UiString
 import org.example.showcase.common.ui.model.asUiString
@@ -37,11 +38,12 @@ fun IProduct.asDetailState(
     navigationAction: (() -> Unit)? = null,
     likeAction: (() -> Unit)? = null
 ): ProductDetailState {
+    val roundedPriceText = priceUsd.roundTo(2).toString()
     return ProductDetailState(
         id = id,
         titleText = title.asUiString(),
         imageUrl = imageUrl,
-        price = UiNumber(priceUsd, "$$priceUsd".asUiString()),
+        price = UiNumber(priceUsd, "$$roundedPriceText".asUiString()),
         category = category,
         descriptionText = description.asUiString(),
         primaryAction = primaryAction,
