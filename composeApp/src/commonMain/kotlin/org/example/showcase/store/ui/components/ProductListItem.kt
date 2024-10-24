@@ -103,12 +103,13 @@ fun ProductListItem(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         modifier = Modifier
                             .testTag("itemPriceTagText")
-                            .align(alignment = Alignment.CenterVertically),
+                            .align(alignment = Alignment.CenterVertically)
+                            .padding(start = 16.dp),
                         text = state.price.formatted.asString(),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.h6,
