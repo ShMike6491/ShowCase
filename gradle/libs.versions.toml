@@ -20,6 +20,7 @@ koin-compose-multiplatform = "1.2.0-Beta4"
 kotlinx-coroutines = "1.9.0-RC.2"
 mvi = "4.1.0"
 decompose = "3.2.0"
+landscapist = "2.4.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -63,6 +64,9 @@ mvikotlin-extensions-coroutines = { module = "com.arkivanov.mvikotlin:mvikotlin-
 # Decompose (Navigation): https://arkivanov.github.io/Decompose/
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-ext = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+
+## Landscapist (image load): https://github.com/skydoves/landscapist
+landscapist-coil = { group = "com.github.skydoves", name = "landscapist-coil3", version.ref = "landscapist"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
