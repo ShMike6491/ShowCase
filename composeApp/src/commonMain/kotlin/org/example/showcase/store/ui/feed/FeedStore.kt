@@ -49,7 +49,11 @@ class FeedExecutorImpl : CoroutineExecutor<UiIntent, Unit, ProductFeedState, Res
 
     private val interactor: StoreProductsInteractor = getKoin().get()
 
-    override fun executeIntent(intent: UiIntent) { /* todo: handle user interactions */ }
+    override fun executeIntent(intent: UiIntent) {
+        if (intent is UiIntent.ToggleChange) {
+            /* todo: preserve liked state */
+        }
+    }
 
     override fun executeAction(action: Unit) {
         scope.launch(Dispatchers.IO) {

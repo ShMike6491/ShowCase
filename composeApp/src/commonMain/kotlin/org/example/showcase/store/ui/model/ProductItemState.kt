@@ -13,7 +13,8 @@ data class ProductItemState(
     val price: UiNumber,
     val imageUrl: String,
     //todo: change hardcoded
-    val actionText: UiString = "Open".asUiString()
+    val actionText: UiString = "Open".asUiString(),
+    val isLiked: Boolean = false
 ) : IIdentifiable
 
 fun IProduct.asProductItemState(): ProductItemState {

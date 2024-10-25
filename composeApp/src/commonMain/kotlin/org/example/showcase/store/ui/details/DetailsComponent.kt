@@ -22,10 +22,12 @@ class DetailComponent(
 
     val model: Value<ProductDetailState> = store.asValue()
 
-    // todo: improve intent handling
     fun onIntent(intent: UiIntent) {
         if (intent is UiIntent.ButtonClick) {
             navigator.navigateUp()
+        }
+        if (intent is UiIntent.ToggleChange) {
+            store.accept(intent)
         }
     }
 }

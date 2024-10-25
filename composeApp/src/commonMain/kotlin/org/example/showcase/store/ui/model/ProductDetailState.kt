@@ -25,6 +25,7 @@ data class ProductDetailState(
     val descriptionTagText: UiString = "Description".asUiString(),
     val descriptionText: UiString? = null,
 
+    val isLiked: Boolean = false,
     val isLoading: Boolean = true,
     val errorMessage: UiString? = null,
 ) : IIdentifiable

@@ -19,12 +19,14 @@ class FeedComponent(
 
     val model: Value<ProductFeedState> = store.asValue()
 
-    // todo: improve intent handling
     fun onIntent(intent: UiIntent) {
-//        store.accept(intent)
         if (intent is UiIntent.ButtonClick && intent.id != null) {
             val route = NavRoute.DetailRoute(intent.id)
             navigator.navigateTo(route)
+        }
+
+        if (intent is UiIntent.ToggleChange) {
+            store.accept(intent)
         }
     }
 }
