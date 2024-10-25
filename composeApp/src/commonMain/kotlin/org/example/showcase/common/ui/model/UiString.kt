@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 /**
  * wrapper class to handle string resources inside any viewModel
  * [DynamicString] serves to wrap any string that comes from backend
+ * todo: add resources and localizations
  */
 sealed class UiString {
 
