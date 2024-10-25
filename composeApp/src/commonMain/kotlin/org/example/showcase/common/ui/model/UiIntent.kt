@@ -5,7 +5,13 @@ package org.example.showcase.common.ui.model
  */
 sealed interface UiIntent {
 
-    data class OnButtonClick(val id: String, val data: String? = null) : UiIntent
+    data class ButtonClick(val id: String? = null) : UiIntent
+
+    data class ToggleChange(val state: Boolean, val id: String? = null): UiIntent
+
+    data class TextChange(val text: String? = null, val id: String? = null): UiIntent
+
+    data object BackPress : UiIntent
 
     data object Refresh : UiIntent
 }
