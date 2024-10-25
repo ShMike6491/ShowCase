@@ -11,6 +11,7 @@ import org.example.showcase.store.data.dto.ProductDto
 import org.example.showcase.common.domain.model.Result
 import org.example.showcase.store.domain.model.IProduct
 
+// fixme: app crushes on any network error
 class StoreHttpKtorClient(private val httpClient: HttpClient) {
 
     suspend fun getAllProducts(): Result<List<IProduct>, IError> {
