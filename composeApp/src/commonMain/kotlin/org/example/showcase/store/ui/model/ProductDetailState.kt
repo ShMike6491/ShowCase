@@ -1,5 +1,6 @@
 package org.example.showcase.store.ui.model
 
+import org.example.showcase.common.domain.getRandomString
 import org.example.showcase.common.domain.model.IIdentifiable
 import org.example.showcase.common.domain.roundTo
 import org.example.showcase.common.ui.model.UiNumber
@@ -7,36 +8,31 @@ import org.example.showcase.common.ui.model.UiString
 import org.example.showcase.common.ui.model.asUiString
 import org.example.showcase.store.domain.model.IProduct
 
-// todo: add like icon vector resource??
-
 data class ProductDetailState(
-    override val id: String,
-    val titleText: UiString,
-    val imageUrl: String,
+    override val id: String = getRandomString(),
+    val titleText: UiString? = null,
+    val imageUrl: String? = null,
 
     //todo: change hardcoded
     val priceTagText: UiString = "Price".asUiString(),
-    val price: UiNumber,
+    val price: UiNumber? = null,
 
     //todo: change hardcoded
     val categoryTagText: UiString = "Category".asUiString(),
-    val category: String,
+    val category: String? = null,
 
     //todo: change hardcoded
     val descriptionTagText: UiString = "Description".asUiString(),
-    val descriptionText: UiString,
+    val descriptionText: UiString? = null,
 
     //todo: change hardcoded
     val actionText: UiString = "Buy".asUiString(),
-    val primaryAction: (() -> Unit)? = null,
-    val navigationAction: (() -> Unit)? = null,
-    val likeAction: (() -> Unit)? = null
+
+    val isLoading: Boolean = true,
+    val errorMessage: UiString? = null,
 ) : IIdentifiable
 
 fun IProduct.asDetailState(
-    primaryAction: (() -> Unit)? = null,
-    navigationAction: (() -> Unit)? = null,
-    likeAction: (() -> Unit)? = null
 ): ProductDetailState {
     val roundedPriceText = priceUsd.roundTo(2).toString()
     return ProductDetailState(
@@ -46,8 +42,7 @@ fun IProduct.asDetailState(
         price = UiNumber(priceUsd, "$$roundedPriceText".asUiString()),
         category = category,
         descriptionText = description.asUiString(),
-        primaryAction = primaryAction,
-        navigationAction = navigationAction,
-        likeAction = likeAction
+        isLoading = false,
+        errorMessage = null
     )
 }
