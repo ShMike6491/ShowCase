@@ -24,7 +24,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,30 +32,27 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import org.example.showcase.common.ui.model.UiIntent
 import org.example.showcase.store.ui.model.ProductDetailState
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.getKoin
 import showcase.composeapp.generated.resources.Res
 import showcase.composeapp.generated.resources.compose_multiplatform
 
 @Composable
-fun DetailScreen(store: DetailsStore = getKoin().get()) {
-    val state = store.states.collectAsState(
-        initial = ProductDetailState()
-    )
+fun DetailScreen(component: DetailComponent) {
+    val state = component.model.subscribeAsState()
 
     Content(
         state = state.value,
-        onAction = { intent -> store.accept(intent) }
+        action = component::onIntent
     )
 }
 
 @Composable
 private fun Content(
     state: ProductDetailState,
-    onAction: (UiIntent) -> Unit = {}
+    action: (UiIntent) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when {
@@ -83,7 +79,7 @@ private fun Content(
             }
 
             else -> Column(modifier = Modifier.padding(16.dp)) {
-                Header(state.imageUrl) { onAction(it) }
+                Header(state.imageUrl) { action(it) }
                 Spacer(modifier = Modifier.height(24.dp))
 
                 if (state.titleText != null) {
@@ -141,7 +137,7 @@ private fun Content(
 @Composable
 fun Header(
     imageUrl: String? = null,
-    onAction: (UiIntent) -> Unit = {}
+    action: (UiIntent) -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
@@ -160,7 +156,8 @@ fun Header(
                 modifier = Modifier
                     .testTag("headerNavigationIconButton")
                     .size(24.dp),
-                onClick = { /* todo: handle navigation */ }
+                // todo: other use of action handling?
+                onClick = { action(UiIntent.ButtonClick()) }
             ) {
                 Icon(
                     modifier = Modifier.testTag("headerNavigationIcon"),
@@ -169,6 +166,10 @@ fun Header(
                     contentDescription = "Navigate back",
                     tint = MaterialTheme.colors.primary
                 )
+            }
+
+            if (imageUrl != null) {
+                // todo: move image here
             }
 
             // todo: load image from url
