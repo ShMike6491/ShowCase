@@ -2,7 +2,6 @@ package org.example.showcase.store.ui.details
 
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
-import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -10,14 +9,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.example.showcase.common.domain.model.IError
 import org.example.showcase.common.domain.model.Result
-import org.example.showcase.common.domain.model.onError
-import org.example.showcase.common.domain.model.onSuccess
 import org.example.showcase.common.ui.model.UiIntent
 import org.example.showcase.common.ui.model.asUiString
 import org.example.showcase.store.domain.StoreProductsInteractor
 import org.example.showcase.store.domain.model.IProduct
 import org.example.showcase.store.ui.model.ProductDetailState
 import org.example.showcase.store.ui.model.asDetailState
+import org.koin.core.component.KoinComponent
 
 const val DETAILS_STORE_TAG = "DetailsStore"
 
@@ -47,23 +45,18 @@ object DetailsReducerImpl : Reducer<ProductDetailState, Result<IProduct, IError>
     }
 }
 
-class DetailsExecutorImpl : CoroutineExecutor<UiIntent, Result<IProduct, IError>, ProductDetailState, Result<IProduct, IError>, Nothing>() {
+class DetailsExecutorImpl(
+    private val itemId: String
+) : CoroutineExecutor<UiIntent, Unit, ProductDetailState, Result<IProduct, IError>, Nothing>(), KoinComponent {
 
-    override fun executeIntent(intent: UiIntent) { /* todo: handle navigation on user interactions */ }
+    private val interactor: StoreProductsInteractor = getKoin().get()
 
-    override fun executeAction(action: Result<IProduct, IError>) { dispatch(action) }
-}
+    override fun executeIntent(intent: UiIntent) { /* todo: handle user interactions */ }
 
-class DetailsBootstrapperImpl(
-    private val interactor: StoreProductsInteractor
-) : CoroutineBootstrapper<Result<IProduct, IError>>() {
-
-    override fun invoke() {
+    override fun executeAction(action: Unit) {
         scope.launch(Dispatchers.IO) {
-            // todo: change hardcoded id with the provided value
-            val result = interactor.getProductById("1")
+            val result = interactor.getProductById(itemId)
             withContext(Dispatchers.Main) { dispatch(result) }
         }
     }
 }
-
