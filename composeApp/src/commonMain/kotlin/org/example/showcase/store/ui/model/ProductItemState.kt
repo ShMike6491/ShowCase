@@ -13,11 +13,10 @@ data class ProductItemState(
     val price: UiNumber,
     val imageUrl: String,
     //todo: change hardcoded
-    val actionText: UiString = "Buy".asUiString(),
+    val actionText: UiString = "Open".asUiString()
 ) : IIdentifiable
 
-fun IProduct.asProductItemState(
-): ProductItemState {
+fun IProduct.asProductItemState(): ProductItemState {
     val roundedPriceText = priceUsd.roundTo(2)
         .toString()
         .asUiString()
