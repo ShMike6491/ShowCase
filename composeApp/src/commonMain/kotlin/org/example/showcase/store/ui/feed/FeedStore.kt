@@ -2,7 +2,6 @@ package org.example.showcase.store.ui.feed
 
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
-import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -16,6 +15,7 @@ import org.example.showcase.store.domain.StoreProductsInteractor
 import org.example.showcase.store.domain.model.IProduct
 import org.example.showcase.store.ui.model.ProductFeedState
 import org.example.showcase.store.ui.model.asProductItemState
+import org.koin.core.component.KoinComponent
 
 const val FEED_STORE_TAG = "FeedStore"
 
@@ -45,18 +45,13 @@ object FeedReducerImpl : Reducer<ProductFeedState, Result<List<IProduct>, IError
     }
 }
 
-class FeedExecutorImpl : CoroutineExecutor<UiIntent, Result<List<IProduct>, IError>, ProductFeedState, Result<List<IProduct>, IError>, Nothing>() {
+class FeedExecutorImpl : CoroutineExecutor<UiIntent, Unit, ProductFeedState, Result<List<IProduct>, IError>, Nothing>(), KoinComponent {
 
-    override fun executeIntent(intent: UiIntent) { /* todo: handle navigation on user interactions */ }
+    private val interactor: StoreProductsInteractor = getKoin().get()
 
-    override fun executeAction(action: Result<List<IProduct>, IError>) { dispatch(action) }
-}
+    override fun executeIntent(intent: UiIntent) { /* todo: handle user interactions */ }
 
-class FeedBootstrapperImpl(
-    private val interactor: StoreProductsInteractor
-) : CoroutineBootstrapper<Result<List<IProduct>, IError>>() {
-
-    override fun invoke() {
+    override fun executeAction(action: Unit) {
         scope.launch(Dispatchers.IO) {
             val result = interactor.getAllProducts()
             withContext(Dispatchers.Main) { dispatch(result) }
