@@ -1,4 +1,6 @@
-package org.example.showcase.common.domain.model
+package org.example.showcase.common.data.model
+
+import org.example.showcase.common.domain.model.IError
 
 enum class NetworkError : IError {
     REQUEST_TIMEOUT,
