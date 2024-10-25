@@ -25,9 +25,6 @@ data class ProductDetailState(
     val descriptionTagText: UiString = "Description".asUiString(),
     val descriptionText: UiString? = null,
 
-    //todo: change hardcoded
-    val actionText: UiString = "Buy".asUiString(),
-
     val isLoading: Boolean = true,
     val errorMessage: UiString? = null,
 ) : IIdentifiable
