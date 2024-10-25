@@ -43,7 +43,7 @@ import showcase.composeapp.generated.resources.compose_multiplatform
 fun ProductListItem(
     modifier: Modifier = Modifier,
     state: ProductItemState,
-    onAction: (UiIntent) -> Unit = {}
+    action: (UiIntent) -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
@@ -128,7 +128,8 @@ fun ProductListItem(
                             contentColor = MaterialTheme.colors.primary,
                             backgroundColor = Color.Transparent
                         ),
-                        onClick = { /* todo: handle ui events via intent */ }
+                        // todo: use better event handling?
+                        onClick = { action(UiIntent.ButtonClick(state.id)) }
                     ) {
                         Text(
                             modifier = Modifier.testTag("itemPrimaryButtonText"),
