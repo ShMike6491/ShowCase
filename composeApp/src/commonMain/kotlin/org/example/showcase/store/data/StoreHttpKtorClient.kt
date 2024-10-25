@@ -6,7 +6,7 @@ import io.ktor.client.request.get
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
 import org.example.showcase.common.domain.model.IError
-import org.example.showcase.common.domain.model.NetworkError
+import org.example.showcase.common.data.model.NetworkError
 import org.example.showcase.store.data.dto.ProductDto
 import org.example.showcase.common.domain.model.Result
 import org.example.showcase.store.domain.model.IProduct
