@@ -12,33 +12,28 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import com.arkivanov.mvikotlin.extensions.coroutines.states
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import org.example.showcase.common.ui.model.UiIntent
 import org.example.showcase.store.ui.components.ProductListItem
 import org.example.showcase.store.ui.model.ProductFeedState
-import org.koin.compose.getKoin
 
 @Composable
-fun FeedScreen(store: FeedStore = getKoin().get()) {
-    val state = store.states.collectAsState(
-        initial = ProductFeedState()
-    )
-
+fun FeedScreen(component: FeedComponent) {
+    val state = component.model.subscribeAsState()
     Content(
         state = state.value,
-        onAction = { intent -> store.accept(intent) }
+        action = component::onIntent
     )
 }
 
 @Composable
 private fun Content(
     state: ProductFeedState,
-    onAction: (UiIntent) -> Unit = {}
+    action: (UiIntent) -> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when {
@@ -83,7 +78,7 @@ private fun Content(
                         ProductListItem(
                             modifier = Modifier.testTag("itemCard${item.id}"),
                             state = item,
-                            onAction = { onAction(it) }
+                            action = { action(it) }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
