@@ -33,6 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.example.showcase.common.ui.model.UiIntent
 import org.example.showcase.store.ui.model.ProductItemState
 import org.jetbrains.compose.resources.painterResource
 import showcase.composeapp.generated.resources.Res
@@ -41,7 +42,8 @@ import showcase.composeapp.generated.resources.compose_multiplatform
 @Composable
 fun ProductListItem(
     modifier: Modifier = Modifier,
-    state: ProductItemState
+    state: ProductItemState,
+    onAction: (UiIntent) -> Unit = {}
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
@@ -59,7 +61,7 @@ fun ProductListItem(
                 modifier = Modifier
                     .testTag("itemSideIconButton")
                     .size(24.dp),
-                onClick = { state.sideAction?.invoke() }
+                onClick = { /* todo: handle ui events via intent */ }
             ) {
                 Icon(
                     modifier = Modifier.testTag("itemSideIcon"),
@@ -126,7 +128,7 @@ fun ProductListItem(
                             contentColor = MaterialTheme.colors.primary,
                             backgroundColor = Color.Transparent
                         ),
-                        onClick = { state.primaryAction?.invoke() }
+                        onClick = { /* todo: handle ui events via intent */ }
                     ) {
                         Text(
                             modifier = Modifier.testTag("itemPrimaryButtonText"),
