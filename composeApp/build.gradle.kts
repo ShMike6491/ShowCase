@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -62,6 +63,31 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+
+        androidUnitTest.dependencies {
+            implementation(libs.junit)
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.koin.test)
+            implementation(libs.mockk)
+        }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.junit)
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.koin.test)
+            implementation(libs.mockk)
+            implementation(libs.mockk.android)
+            implementation(libs.androidx.test.core)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.uiautomation)
+            implementation(libs.androidx.test.compose)
+            implementation(libs.androidx.test.compose.junit)
+            implementation(libs.androidx.test.compose.manifest)
+            implementation(libs.androidx.espresso.core)
+            implementation(libs.androidx.espresso.contrib)
+            implementation(libs.androidx.espresso.intents)
+        }
     }
 }
 
@@ -75,11 +101,12 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        resources.excludes.add("MANIFEST.MF")
+        resources.excludes.add("META-INF/*")
     }
     buildTypes {
         getByName("release") {
@@ -98,4 +125,3 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
-
