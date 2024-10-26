@@ -81,7 +81,11 @@ private fun Content(
                 )
             }
 
-            else -> Column(modifier = Modifier.padding(16.dp)) {
+            else -> Column(
+                modifier = Modifier
+                    .testTag("contentContainer")
+                    .padding(16.dp)
+            ) {
                 Header(state) { action(it) }
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -120,7 +124,7 @@ private fun Content(
                         text = state.descriptionTagText.asString(),
                         style = MaterialTheme.typography.h6,
                         color = MaterialTheme.colors.primaryVariant,
-                        modifier = Modifier.testTag("infoTagText")
+                        modifier = Modifier.testTag("descriptionTagText")
                     )
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -128,7 +132,7 @@ private fun Content(
                         text = state.descriptionText.asString(),
                         style = MaterialTheme.typography.body1,
                         color = MaterialTheme.colors.primaryVariant,
-                        modifier = Modifier.testTag("infoTagText")
+                        modifier = Modifier.testTag("descriptionText")
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
