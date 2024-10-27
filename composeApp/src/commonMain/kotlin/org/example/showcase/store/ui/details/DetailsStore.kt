@@ -3,6 +3,7 @@ package org.example.showcase.store.ui.details
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
@@ -29,7 +30,9 @@ object DetailsReducerImpl : Reducer<ProductDetailState, Result<IProduct, IError>
                 isLoading = false,
                 // todo: extract hardcoded
                 errorMessage = "Something went wrong!".asUiString()
-            )
+            ).also {
+                println("STORE_DETAILS: ${it.errorMessage}")
+            }
             is Result.Success -> msg.data
                 .asDetailState()
                 .copy(
@@ -46,7 +49,9 @@ object DetailsReducerImpl : Reducer<ProductDetailState, Result<IProduct, IError>
 }
 
 class DetailsExecutorImpl(
-    private val itemId: String
+    private val itemId: String,
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : CoroutineExecutor<UiIntent, Unit, ProductDetailState, Result<IProduct, IError>, Nothing>(), KoinComponent {
 
     private val interactor: StoreProductsInteractor = getKoin().get()
@@ -58,9 +63,9 @@ class DetailsExecutorImpl(
     }
 
     override fun executeAction(action: Unit) {
-        scope.launch(Dispatchers.IO) {
+        scope.launch(ioDispatcher) {
             val result = interactor.getProductById(itemId)
-            withContext(Dispatchers.Main) { dispatch(result) }
+            withContext(mainDispatcher) { dispatch(result) }
         }
     }
 }
