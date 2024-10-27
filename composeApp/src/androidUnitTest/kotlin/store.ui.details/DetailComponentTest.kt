@@ -1,4 +1,4 @@
-package org.example.showcase.store.ui.details
+package store.ui.details
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DefaultComponentContext
@@ -9,6 +9,8 @@ import io.mockk.slot
 import io.mockk.verify
 import org.example.showcase.common.navigation.INavigator
 import org.example.showcase.common.ui.model.UiIntent
+import org.example.showcase.store.ui.details.DetailComponent
+import org.example.showcase.store.ui.details.DetailsStore
 import org.example.showcase.store.ui.model.ProductDetailState
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
