@@ -6,7 +6,7 @@ This is a showcase mobile application built with **Kotlin Multiplatform** and fo
 
 | Main Feed                                           | Product Details                                           |
 |-----------------------------------------------------|-----------------------------------------------------------|
-| ![Main Feed](screenshots/Screenshot_1730018797.png) | ![Product Details](screenshots/Screenshot_1730018802.png) |
+| ![Main Feed](screenshots/Screenshot_1730018802.png) | ![Product Details](screenshots/Screenshot_1730018797.png) |
 
 ## Features
 
